@@ -1,0 +1,22 @@
+plugins {
+    id 'org.jetbrains.intellij' version '0.4.18'
+}
+
+group 'com.zhaow'
+version '2.0.6'
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version '2020.1'
+    localPath 'D:\\sft\\ideaIC-2020.1.win'
+    plugins = ['java', 'Kotlin', 'yaml', 'properties']
+}
+patchPluginXml {
+    changeNotes """
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>"""
+}
+dependencies {
+    'commons-codec:commons-codec:1.14'
+    'org.apache.httpcomponents:httpclient:4.5.12'
+}
