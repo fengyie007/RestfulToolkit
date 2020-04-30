@@ -7,8 +7,8 @@ version '2.0.6'
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2020.1'
-    localPath 'D:\\sft\\ideaIC-2020.1.win'
+    version '2019.3'
+    localPath 'D:\\sft\\ideaIC-2019.3.win'
     plugins = ['java', 'Kotlin', 'yaml', 'properties']
 }
 patchPluginXml {
