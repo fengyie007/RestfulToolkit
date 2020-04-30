@@ -1,7 +1,6 @@
 package com.zhaow.restful.navigator;
 
 
-import com.intellij.icons.AllIcons;
 import com.intellij.lang.java.JavaLanguage;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -33,6 +32,7 @@ import java.util.Map;
 public class RestServiceStructure extends SimpleTreeStructure {
     public static final Logger LOG = Logger.getInstance(RestServiceStructure.class);
 
+    // fixme: 2020.3 以后不兼容
     private SimpleTreeBuilder myTreeBuilder;
     private SimpleTree myTree;
 
@@ -55,11 +55,12 @@ public class RestServiceStructure extends SimpleTreeStructure {
         myRestServiceDetail = project.getComponent(RestServiceDetail.class);
 
         configureTree(tree);
-
+        // fixme: 2020.3 以后不兼容
         myTreeBuilder = new SimpleTreeBuilder(tree, (DefaultTreeModel) tree.getModel(), this, null);
         Disposer.register(myProject, myTreeBuilder);
-
+        // fixme: 2020.3 以后不兼容
         myTreeBuilder.initRoot();
+        // fixme: 2020.3 以后不兼容
         myTreeBuilder.expand(myRoot, null);
 
     }
@@ -115,6 +116,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
                 myProjectToNodeMapping.put(each, node);
             }
         }
+//        fixme: 2020.3 以后不兼容
         myTreeBuilder.getUi().doUpdateFromRoot();
 //        ((CachingSimpleNode) myRoot.getParent()).cleanUpCache();
 //        myRoot.childrenChanged();
@@ -126,6 +128,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
     }
 
     public void updateFrom(SimpleNode node) {
+        //        fixme: 2020.3 以后不兼容
         myTreeBuilder.addSubtreeToUpdateByElement(node);
     }
 
@@ -206,8 +209,8 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         protected RootNode() {
             super(null);
-            getTemplatePresentation().setIcon(AllIcons.Actions.Module);
-            setIcon(AllIcons.Actions.Module); //兼容 IDEA 2016
+//            getTemplatePresentation().setIcon(AllIcons.Actions.Module);
+//            setIcon(AllIcons.Actions.Module); //兼容 IDEA 2016
         }
 
         @Override
@@ -260,8 +263,8 @@ public class RestServiceStructure extends SimpleTreeStructure {
             super(parent);
             myProject = project;
 
-            getTemplatePresentation().setIcon(ToolkitIcons.MODULE);
-            setIcon(ToolkitIcons.MODULE); //兼容 IDEA 2016
+//            getTemplatePresentation().setIcon(ToolkitIcons.MODULE);
+//            setIcon(ToolkitIcons.MODULE); //兼容 IDEA 2016
 
             updateServiceNodes(project.serviceItems);
         }
