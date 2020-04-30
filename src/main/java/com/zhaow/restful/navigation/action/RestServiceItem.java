@@ -9,11 +9,13 @@ import com.intellij.psi.PsiMethod;
 import com.zhaow.restful.common.ToolkitIcons;
 import com.zhaow.restful.method.HttpMethod;
 import com.zhaow.restful.method.action.ModuleHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.psi.KtClass;
 import org.jetbrains.kotlin.psi.KtNamedFunction;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 //RequestMappingNavigationItem
 public class RestServiceItem implements NavigationItem {
@@ -109,12 +111,21 @@ public class RestServiceItem implements NavigationItem {
 
             if (psiElement instanceof PsiMethod) {
                 PsiMethod psiMethod = ((PsiMethod) psiElement);
-                ;
-                location = psiMethod.getContainingClass().getName().concat("#").concat(psiMethod.getName());
+                //增加项目名称的显示 这样可以区分是哪个项目或者模块里面的地址
+                location = StringUtils.join(Arrays.asList(
+                        psiMethod.getProject().getName(),
+                        psiMethod.getContainingClass() != null ? psiMethod.getContainingClass().getName() : "",
+                        psiMethod.getName()
+                ), "#");
             } else if (psiElement instanceof KtNamedFunction) {
                 KtNamedFunction ktNamedFunction = (KtNamedFunction) RestServiceItem.this.psiElement;
                 String className = ((KtClass) psiElement.getParent().getParent()).getName();
-                location = className.concat("#").concat(ktNamedFunction.getName());
+                //增加项目名称的显示 这样可以区分是哪个项目或者模块里面的地址
+                location = StringUtils.join(Arrays.asList(
+                        psiMethod.getProject().getName(),
+                        className,
+                        ktNamedFunction.getName()
+                ), "#");
             }
 
             return "(" + location + ")";
