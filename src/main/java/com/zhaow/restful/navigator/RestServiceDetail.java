@@ -311,18 +311,14 @@ public class RestServiceDetail extends JBPanel/*WithEmptyText*/ {
         }
 
         highlightTextAreaData(requestBodyTextArea);
-
         addRequestTabbedPane(reqBodyTitle, this.requestBodyTextArea);
     }
 
 
     public void addRequestTabbedPane(String title, JTextArea jTextArea) {
-
         JScrollPane jbScrollPane = new JBScrollPane(jTextArea, JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jTextArea.addKeyListener(new TextAreaKeyAdapter(jTextArea));
-
         requestTabbedPane.addTab(title, jbScrollPane);
-
         requestTabbedPane.setSelectedComponent(jbScrollPane);//.setSelectedIndex(requestTabbedPane.getTabCount() - 1);
     }
 
@@ -479,7 +475,7 @@ public class RestServiceDetail extends JBPanel/*WithEmptyText*/ {
 
     /* 高亮 */
     public void highlightTextAreaData(JTextArea jTextArea) {
-//        JTextAreaHighlight.highlightTextAreaData(jTextArea);
+       // JTextAreaHighlight.highlightTextAreaData(jTextArea);
     }
 
 }

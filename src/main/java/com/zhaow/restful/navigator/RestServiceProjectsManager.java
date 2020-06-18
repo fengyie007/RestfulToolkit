@@ -63,7 +63,7 @@ public class RestServiceProjectsManager extends AbstractProjectComponent
     }
 
     public List<RestServiceProject> getServiceProjects() {
-//    List<RestServiceProject> list = DumbService.getInstance(myProject).runReadActionInSmartMode(() -> ServiceHelper.buildRestServiceProjectList(myProject));
+   // List<RestServiceProject> list = DumbService.getInstance(myProject).runReadActionInSmartMode(() -> ServiceHelper.buildRestServiceProjectList(myProject));
         List<RestServiceProject> list = DumbService.getInstance(myProject).runReadActionInSmartMode(() -> ServiceHelper.buildRestServiceProjectListUsingResolver(myProject));
         return list;
     }

@@ -1,7 +1,7 @@
 <idea-plugin url="https://plugins.jetbrains.com/plugin/10292-restfultoolkit" allow-bundled-update="true">
     <id>com.zhaow.restful.toolkit</id>
     <name>RestfulToolkit</name>
-    <version>2.0.10</version>
+    <version>2.0.11</version>
     <vendor email="mrmanzhaow@163.com" url="">zhaow</vendor>
 
     <description><![CDATA[
@@ -16,7 +16,7 @@
    <p> support Spring framework (Spring MVC / Spring Boot)
    <p> support JAX-RS
    <p> support Java and Kotlin languages
- 
+
   <hr />
   <h3>一套 RESTful 服务开发辅助工具集。</h3>
   <ul>
@@ -33,6 +33,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <li>2.0.11 新增支持 Spring cloud @FeignClient </li>
         <li>2.0.10 移除了 2020.1 版本不兼容的内容(只是简单注释掉,不知道是否移除了重要内容) 注意:2020.3移除了更多的东西 </li>
         <li>2.0.5 Bug fixed, supported http request OPTIONS,TRACE,CONNECT methods. </li>
         <li>2.0.4 Fixed NullPointerException with Kotlin project.<br/>
@@ -222,7 +223,6 @@
                   <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir"/>
               </action>
               -->
-
     </actions>
 
 </idea-plugin>

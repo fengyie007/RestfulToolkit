@@ -23,7 +23,6 @@ public class RefreshProjectAction extends AnAction {
       perform(manager);*/
 
         RestServicesNavigator servicesNavigator = RestServicesNavigator.getInstance(project);
-
         servicesNavigator.initComponent();
         servicesNavigator.scheduleStructureUpdate();
     }

@@ -14,7 +14,6 @@ import com.zhaow.restful.common.PsiMethodHelper;
 import com.zhaow.restful.common.ToolkitIcons;
 import com.zhaow.restful.method.HttpMethod;
 import com.zhaow.restful.navigation.action.RestServiceItem;
-import gnu.trove.THashMap;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
@@ -28,6 +27,8 @@ import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import gnu.trove.THashMap;
 
 public class RestServiceStructure extends SimpleTreeStructure {
     public static final Logger LOG = Logger.getInstance(RestServiceStructure.class);
@@ -58,8 +59,10 @@ public class RestServiceStructure extends SimpleTreeStructure {
         // fixme: 2020.3 以后不兼容
         myTreeBuilder = new SimpleTreeBuilder(tree, (DefaultTreeModel) tree.getModel(), this, null);
         Disposer.register(myProject, myTreeBuilder);
+
         // fixme: 2020.3 以后不兼容
         myTreeBuilder.initRoot();
+
         // fixme: 2020.3 以后不兼容
         myTreeBuilder.expand(myRoot, null);
 
@@ -362,36 +365,35 @@ public class RestServiceStructure extends SimpleTreeStructure {
          * 显示服务详情，url
          */
         private void showServiceDetail(RestServiceItem serviceItem) {
+            String requestParams = "";
+            String requestBodyJson = "";
+            String method = serviceItem.getMethod() != null ? String.valueOf(serviceItem.getMethod()) : HttpMethod.GET.name();
 
             myRestServiceDetail.resetRequestTabbedPane();
-
-            String method = serviceItem.getMethod() != null ? String.valueOf(serviceItem.getMethod()) : HttpMethod.GET.name();
             myRestServiceDetail.setMethodValue(method);
             myRestServiceDetail.setUrlValue(serviceItem.getFullUrl());
 
-            String requestParams = "";
-            String requestBodyJson = "";
             PsiElement psiElement = serviceItem.getPsiElement();
-            if (psiElement.getLanguage() == JavaLanguage.INSTANCE) {
-                PsiMethodHelper psiMethodHelper = PsiMethodHelper.create(serviceItem.getPsiMethod()).withModule(serviceItem.getModule());
-                requestParams = psiMethodHelper.buildParamString();
-                requestBodyJson = psiMethodHelper.buildRequestBodyJson();
 
+            PsiMethodHelper psiMethodHelper = null;
+            if (psiElement.getLanguage() == JavaLanguage.INSTANCE) {
+                psiMethodHelper = PsiMethodHelper.create(serviceItem.getPsiMethod()).withModule(serviceItem.getModule());
             } else if (psiElement.getLanguage() == KotlinLanguage.INSTANCE) {
                 if (psiElement instanceof KtNamedFunction) {
                     KtNamedFunction ktNamedFunction = (KtNamedFunction) psiElement;
-                    KtFunctionHelper ktFunctionHelper = KtFunctionHelper.create(ktNamedFunction).withModule(serviceItem.getModule());
-                    requestParams = ktFunctionHelper.buildParamString();
-                    requestBodyJson = ktFunctionHelper.buildRequestBodyJson();
+                    psiMethodHelper = KtFunctionHelper.create(ktNamedFunction).withModule(serviceItem.getModule());
                 }
-
             }
 
-            myRestServiceDetail.addRequestParamsTab(requestParams);
-
+            if (psiMethodHelper != null) {
+                requestParams = psiMethodHelper.buildParamString();
+                requestBodyJson = psiMethodHelper.buildRequestBodyJson();
+            }
 
             if (StringUtils.isNotBlank(requestBodyJson)) {
                 myRestServiceDetail.addRequestBodyTabPanel(requestBodyJson);
+            } else {
+                myRestServiceDetail.addRequestParamsTab(requestParams);
             }
         }
 
@@ -443,7 +445,6 @@ public class RestServiceStructure extends SimpleTreeStructure {
         myRestServiceDetail.resetRequestTabbedPane();
         myRestServiceDetail.setMethodValue(HttpMethod.GET.name());
         myRestServiceDetail.setUrlValue("URL");
-
         myRestServiceDetail.initTab();
     }
 

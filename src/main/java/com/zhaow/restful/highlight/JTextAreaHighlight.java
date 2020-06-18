@@ -1,10 +1,11 @@
 package com.zhaow.restful.highlight;
 
+import com.intellij.ui.JBColor;
+
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
-import java.awt.*;
 
 /**
  * 文本高亮
@@ -13,10 +14,8 @@ public class JTextAreaHighlight {
 
     /* 高亮 */
     public static void highlightTextAreaData(JTextArea jTextArea) {
-
-
         Highlighter highLighter = jTextArea.getHighlighter();
-        DefaultHighlighter.DefaultHighlightPainter highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.DARK_GRAY);
+        DefaultHighlighter.DefaultHighlightPainter highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(JBColor.LIGHT_GRAY);
         highLighter.removeAllHighlights();
         String text = jTextArea.getText().trim();
         //TODO: isKeyValueFormat  高亮param？ 高亮 ： 高亮value

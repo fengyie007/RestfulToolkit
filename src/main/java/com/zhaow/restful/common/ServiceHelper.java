@@ -13,6 +13,7 @@ import com.zhaow.restful.navigator.RestServiceProject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -42,19 +43,24 @@ public class ServiceHelper {
     }
 
     public static List<RestServiceItem> buildRestServiceItemListUsingResolver(Module module) {
-
         List<RestServiceItem> itemList = new ArrayList<>();
 
-        SpringResolver springResolver = new SpringResolver(module);
-        JaxrsResolver jaxrsResolver = new JaxrsResolver(module);
-        ServiceResolver[] resolvers = {springResolver, jaxrsResolver};
+        // SpringResolver springResolver = new SpringResolver(module);
+        // JaxrsResolver jaxrsResolver = new JaxrsResolver(module);
+
+        List<ServiceResolver> resolvers = new ArrayList<>();
+        resolvers.add(new SpringResolver(module));
+        resolvers.add(new JaxrsResolver(module));
+
+        // ServiceResolver[] resolvers = {springResolver, jaxrsResolver};
 
         for (ServiceResolver resolver : resolvers) {
             List<RestServiceItem> allSupportedServiceItemsInModule = resolver.findAllSupportedServiceItemsInModule();
-
             itemList.addAll(allSupportedServiceItemsInModule);
         }
 
+        // url 排序
+        itemList.sort(Comparator.comparing(RestServiceItem::getUrl));
         return itemList;
     }
 

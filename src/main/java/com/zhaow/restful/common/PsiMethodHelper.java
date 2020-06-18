@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.zhaow.restful.annotations.SpringRequestMethodAnnotation.POST_MAPPING;
 import static com.zhaow.restful.annotations.SpringRequestParamAnnotations.*;
 
 /**
@@ -137,20 +138,21 @@ public class PsiMethodHelper {
 
         PsiParameterList psiParameterList = psiMethod.getParameterList();
         PsiParameter[] psiParameters = psiParameterList.getParameters();
+        boolean postMapping = psiMethod.getAnnotation(POST_MAPPING.getQualifiedName()) != null;
+
         for (PsiParameter psiParameter : psiParameters) {
             //忽略 request response
-
             String paramType = psiParameter.getType().getCanonicalText();
-            if (paramType.equals("javax.servlet.http.HttpServletRequest")
-                    || paramType.equals("javax.servlet.http.HttpServletResponse"))
+            if (paramType.equals("javax.servlet.http.HttpServletRequest") || paramType.equals("javax.servlet.http.HttpServletResponse")) {
                 continue;
+            }
             //必传参数 @RequestParam
             PsiModifierList modifierList = psiParameter.getModifierList();
-            boolean requestBodyFound = modifierList.findAnnotation(REQUEST_BODY.getQualifiedName()) != null;
+            PsiAnnotation[] annotations = modifierList.getAnnotations();
+            boolean requestBodyFound = modifierList.findAnnotation(REQUEST_BODY.getQualifiedName()) != null || postMapping;
             // 没有 RequestParam 注解, 有注解使用注解value
             String paramName = psiParameter.getName();
             String requestName = null;
-
 
             PsiAnnotation pathVariableAnno = modifierList.findAnnotation(PATH_VARIABLE.getQualifiedName());
             if (pathVariableAnno != null) {

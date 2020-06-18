@@ -3,12 +3,12 @@ plugins {
 }
 
 group 'com.zhaow'
-version '2.0.10'
+version '2.0.11'
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version '2020.1'
-    localPath 'D:\\sft\\ideaIC-2020.1.win'
+    // localPath '/Applications/IntelliJ IDEA.app'
     plugins = ['java', 'Kotlin', 'yaml', 'properties']
 }
 patchPluginXml {
@@ -24,7 +24,7 @@ patchPluginXml {
    <p> support Spring framework (Spring MVC / Spring Boot)
    <p> support JAX-RS
    <p> support Java and Kotlin languages
- 
+
   <hr />
   <h3>一套 RESTful 服务开发辅助工具集。</h3>
   <ul>
@@ -76,4 +76,6 @@ patchPluginXml {
 dependencies {
     'commons-codec:commons-codec:1.14'
     'org.apache.httpcomponents:httpclient:4.5.12'
+    compileOnly 'org.projectlombok:lombok:1.16.14'
+    annotationProcessor 'org.projectlombok:lombok:1.16.14'
 }
