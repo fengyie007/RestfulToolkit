@@ -33,6 +33,7 @@ import java.util.Map;
 //import com.intellij.openapi.editor.colors.impl.AppEditorFontOptions;
 //import com.intellij.ui.components.JBPanelWithEmptyText;
 
+@SuppressWarnings("ALL")
 public class RestServiceDetail extends JBPanel/*WithEmptyText*/ {
     private static RestServiceDetail restServiceDetail;
 /*
@@ -81,7 +82,6 @@ public class RestServiceDetail extends JBPanel/*WithEmptyText*/ {
     private void initActions() {
 //        bindMouseEvent(servicesTree);
         bindSendButtonActionListener();
-
         bindUrlTextActionListener();
     }
 
@@ -89,7 +89,6 @@ public class RestServiceDetail extends JBPanel/*WithEmptyText*/ {
 //        jTextArea.setAutoscrolls(true);
         String jsonFormat = "Try press 'Ctrl(Cmd) Enter'";
         JTextArea textArea = createTextArea("{'key':'value'}");
-
         addRequestTabbedPane(jsonFormat, textArea);
     }
 
@@ -121,12 +120,13 @@ public class RestServiceDetail extends JBPanel/*WithEmptyText*/ {
                 new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
                         GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
                         null, null, null));
+
         urlPanel.add(urlField,
                 new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
                         GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
                         GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
                         null, null, null));
-// 是否必要保留？
+        // 是否必要保留？
         urlPanel.add(sendButton,
                 new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
                         GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
@@ -139,6 +139,7 @@ public class RestServiceDetail extends JBPanel/*WithEmptyText*/ {
                 new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
                         GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
                         null, null, null));
+
         this.add(requestTabbedPane,
                 new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
                         GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,

@@ -81,9 +81,7 @@ public abstract class BaseServiceResolver implements ServiceResolver {
         String requestPath = classUriPath + methodPath;
 
         RestServiceItem item = new RestServiceItem(psiMethod, requestMapping.getMethod(), requestPath);
-        if (myModule != null) {
-            item.setModule(myModule);
-        }
+        item.setModule(myModule);
         return item;
     }
 

@@ -267,19 +267,17 @@ public class PsiMethodHelper {
     //包含 "RestController" "Controller"
     public static boolean isJaxrsRestSupported(PsiClass containingClass) {
         PsiModifierList modifierList = containingClass.getModifierList();
-
         return modifierList.findAnnotation(JaxrsRequestAnnotation.PATH.getQualifiedName()) != null;
     }
 
-
-    /* 生成完整 URL , 附带参数 */
+    /**
+     * 完整 URL , 附带参数
+     * @return
+     */
     @NotNull
     public String buildFullUrlWithParams() {
-
         String fullUrl = buildFullUrl();
-
         String params = buildParamString();
-
         // RequestMapping 注解设置了 param
         if (!params.isEmpty()) {
             StringBuilder urlBuilder = new StringBuilder(fullUrl);
@@ -290,11 +288,8 @@ public class PsiMethodHelper {
 
     @NotNull
     public String buildFullUrl() {
-
-        String hostUri = myModule != null ? ModuleHelper.create(myModule).getServiceHostPrefix() : ModuleHelper.DEFAULT_URI;
-
+        String hostUri = ModuleHelper.getServiceHostPrefix(myModule);
         String servicePath = buildServiceUriPath();
-
         return hostUri.concat(servicePath);
     }
 

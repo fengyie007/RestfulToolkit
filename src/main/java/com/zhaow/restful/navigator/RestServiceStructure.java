@@ -292,7 +292,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         @Override
         protected SimpleNode[] buildChildren() {
-            return serviceNodes.toArray(new SimpleNode[serviceNodes.size()]);
+            return serviceNodes.toArray(new SimpleNode[0]);
         }
 
         @Override
@@ -390,6 +390,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
                 requestBodyJson = psiMethodHelper.buildRequestBodyJson();
             }
 
+
             if (StringUtils.isNotBlank(requestBodyJson)) {
                 myRestServiceDetail.addRequestBodyTabPanel(requestBodyJson);
             } else {
@@ -407,8 +408,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
             if (!psiElement.isValid()) {
                 // PsiDocumentManager.getInstance(psiMethod.getProject()).commitAllDocuments();
                 // try refresh service
-                LOG.info("psiMethod is invalid: ");
-                LOG.info(psiElement.toString());
+                LOG.info("psiMethod is invalid: " +    psiElement.toString());
                 RestServicesNavigator.getInstance(myServiceItem.getModule().getProject()).scheduleStructureUpdate();
             }
 

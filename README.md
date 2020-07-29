@@ -1,4 +1,11 @@
 # RestfulToolkit
+
+##  更新日志
+* IntelliJ IDEA 最低版本 2020.1
+### v2.0.11 (2020-06-18)
+* 2020-06-18 新增支持 Spring cloud @FeignClient
+* 2020-07-29 支持从 yaml yml 配置文件获取端口
+
 ## A toolkit for restful services development.
 
 * 1.*ONE STEP* to navigate to service declaration.
@@ -27,5 +34,4 @@
  #### 支持 Kotlin 语言语法
  ------------
 
-##  更新
-* 2020-06-18 新增支持 Spring cloud @FeignClient
+

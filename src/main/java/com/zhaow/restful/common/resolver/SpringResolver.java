@@ -11,7 +11,6 @@ import com.zhaow.restful.annotations.SpringControllerAnnotation;
 import com.zhaow.restful.annotations.SpringRequestMethodAnnotation;
 import com.zhaow.restful.common.spring.RequestMappingAnnotationHelper;
 import com.zhaow.restful.method.RequestPath;
-import com.zhaow.restful.method.action.PropertiesHandler;
 import com.zhaow.restful.navigation.action.RestServiceItem;
 import org.jetbrains.kotlin.idea.stubindex.KotlinAnnotationsIndex;
 import org.jetbrains.kotlin.psi.*;
@@ -24,11 +23,11 @@ import java.util.List;
 public class SpringResolver extends BaseServiceResolver {
     /*    Module myModule;
         Project myProject;*/
-    PropertiesHandler propertiesHandler;
+    // PropertiesHandler propertiesHandler;
 
     public SpringResolver(Module module) {
         myModule = module;
-        propertiesHandler = new PropertiesHandler(module);
+        // propertiesHandler = new PropertiesHandler(module);
     }
 
     public SpringResolver(Project project) {
@@ -95,7 +94,8 @@ public class SpringResolver extends BaseServiceResolver {
         for (PathMappingAnnotation controllerAnnotation : supportedAnnotations) {
 
             // 标注了 (Rest)Controller 注解的类，即 Controller 类
-            Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex.getInstance().get(controllerAnnotation.getShortName(), project, globalSearchScope);
+            Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex.getInstance().get(controllerAnnotation.getShortName(), project,
+            globalSearchScope);
             for (PsiAnnotation psiAnnotation : psiAnnotations) {
                 PsiModifierList psiModifierList = (PsiModifierList) psiAnnotation.getParent();
                 PsiElement psiElement = psiModifierList.getParent();
@@ -124,10 +124,12 @@ public class SpringResolver extends BaseServiceResolver {
 
         // TODO: 这种实现的局限了其他方式实现的url映射（xml（类似struts），webflux routers）
         SpringControllerAnnotation[] supportedAnnotations = SpringControllerAnnotation.values();
-        for (PathMappingAnnotation controllerAnnotation : supportedAnnotations) {
 
+        for (PathMappingAnnotation controllerAnnotation : supportedAnnotations) {
             // java: 标注了 (Rest)Controller 注解的类，即 Controller 类
-            Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex.getInstance().get(controllerAnnotation.getShortName(), project, globalSearchScope);
+            Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex.getInstance()
+                    .get(controllerAnnotation.getShortName(), project, globalSearchScope);
+
             for (PsiAnnotation psiAnnotation : psiAnnotations) {
                 PsiModifierList psiModifierList = (PsiModifierList) psiAnnotation.getParent();
                 PsiElement psiElement = psiModifierList.getParent();
@@ -140,7 +142,9 @@ public class SpringResolver extends BaseServiceResolver {
 
 
             // kotlin:
-            Collection<KtAnnotationEntry> ktAnnotationEntries = KotlinAnnotationsIndex.getInstance().get(controllerAnnotation.getShortName(), project, globalSearchScope);
+            Collection<KtAnnotationEntry> ktAnnotationEntries = KotlinAnnotationsIndex.getInstance()
+                    .get(controllerAnnotation.getShortName(), project, globalSearchScope);
+
             for (KtAnnotationEntry ktAnnotationEntry : ktAnnotationEntries) {
                 KtClass ktClass = (KtClass) ktAnnotationEntry.getParent().getParent();
 
@@ -184,7 +188,7 @@ public class SpringResolver extends BaseServiceResolver {
             for (RequestPath classRequestPath : classRequestPaths) {
                 for (RequestPath methodRequestPath : methodRequestPaths) {
                     String path = classRequestPath.getPath();
-//                String path = tryReplacePlaceholderValueInPath( classRequestPath.getPath() );
+                    //                String path = tryReplacePlaceholderValueInPath( classRequestPath.getPath() );
 
                     RestServiceItem item = createRestServiceItem(psiMethod, path, methodRequestPath);
                     itemList.add(item);
@@ -219,8 +223,8 @@ public class SpringResolver extends BaseServiceResolver {
     }
 
     private List<RequestPath> getRequestPaths(KtNamedFunction fun) {
-//        String methodBody = fun.getBodyExpression().getText();// 方法体
-//        String defaultPath = fun.getName();
+        //        String methodBody = fun.getBodyExpression().getText();// 方法体
+        //        String defaultPath = fun.getName();
         String defaultPath = "/";
         //方法注解
         List<KtAnnotationEntry> annotationEntries = fun.getModifierList().getAnnotationEntries();
@@ -231,7 +235,7 @@ public class SpringResolver extends BaseServiceResolver {
     private List<RequestPath> getRequestMappings(String defaultPath, List<KtAnnotationEntry> annotationEntries) {
         List<RequestPath> requestPaths = new ArrayList<>();
         for (KtAnnotationEntry entry : annotationEntries) {
-//            List<RequestPath> requestMappings = getRequestMappings(defaultPath, entry);
+            //            List<RequestPath> requestMappings = getRequestMappings(defaultPath, entry);
             List<RequestPath> requestMappings = getRequestMappings(defaultPath, entry);
             requestPaths.addAll(requestMappings);
         }
@@ -353,7 +357,7 @@ public class SpringResolver extends BaseServiceResolver {
         }
 
         //注解参数值
-//        KtValueArgumentList valueArgumentList = entry.getValueArgumentList();
+        //        KtValueArgumentList valueArgumentList = entry.getValueArgumentList();
         if (entry.getValueArgumentList() != null) {
             List<String> mappingValues = getAttributeValues(entry, null);
             if (!mappingValues.isEmpty())
@@ -364,7 +368,8 @@ public class SpringResolver extends BaseServiceResolver {
             pathList.addAll(getAttributeValues(entry, "path")); // path
         }
 
-        if (pathList.isEmpty()) pathList.add(defaultPath); //没指定参数
+        if (pathList.isEmpty())
+            pathList.add(defaultPath); //没指定参数
 
         if (methodList.size() > 0) {
             for (String method : methodList) {
@@ -384,7 +389,8 @@ public class SpringResolver extends BaseServiceResolver {
     private List<String> getAttributeValues(KtAnnotationEntry entry, String attribute) {
         KtValueArgumentList valueArgumentList = entry.getValueArgumentList();
 
-        if (valueArgumentList == null) return Collections.emptyList();
+        if (valueArgumentList == null)
+            return Collections.emptyList();
 
         List<KtValueArgument> arguments = valueArgumentList.getArguments();
 
@@ -411,7 +417,7 @@ public class SpringResolver extends BaseServiceResolver {
                 } else {
                     // 有且仅有一个value
                     PsiElement[] paths = ktValueArgument.getArgumentExpression().getChildren();
-//                            Arrays.stream(paths).forEach(p -> methodList.add(p.getText()));
+                    //                            Arrays.stream(paths).forEach(p -> methodList.add(p.getText()));
                     methodList.add(paths.length == 0 ? "" : paths[0].getText());
                 }
 

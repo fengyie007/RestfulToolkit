@@ -19,44 +19,33 @@ import static com.intellij.openapi.actionSystem.CommonDataKeys.PSI_ELEMENT;
  * 生成并复制restful url
  * tood: 没考虑RequestMapping 多个值的情况
  */
-public class
-GenerateFullUrlAction extends SpringAnnotatedMethodAction {
+public class GenerateFullUrlAction extends SpringAnnotatedMethodAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-
         Module module = myModule(e);
         PsiElement psiElement = e.getData(PSI_ELEMENT);
         if (psiElement instanceof PsiMethod) {
             PsiMethod psiMethod = (PsiMethod) psiElement;
-
-            ModuleHelper moduleHelper = ModuleHelper.create(module);
-
-//            String url = moduleHelper.buildFullUrlWithParams(psiMethod);
-
+            // ModuleHelper moduleHelper = ModuleHelper.create(module);
+            //            String url = moduleHelper.buildFullUrlWithParams(psiMethod);
             String url = PsiMethodHelper.create(psiMethod).withModule(module).buildFullUrlWithParams();
-
             CopyPasteManager.getInstance().setContents(new StringSelection(url));
+            return;
         }
 
         if (psiElement instanceof KtNamedFunction) {
             KtNamedFunction ktNamedFunction = (KtNamedFunction) psiElement;
             PsiElement parentPsi = psiElement.getParent().getParent();
             if (parentPsi instanceof KtClassOrObject) {
-//                KtLightClass ktLightClass = LightClassUtilsKt.toLightClass(((KtClassOrObject) parentPsi));
-
+                //                KtLightClass ktLightClass = LightClassUtilsKt.toLightClass(((KtClassOrObject) parentPsi));
                 List<PsiMethod> psiMethods = LightClassUtilsKt.toLightMethods(ktNamedFunction);
                 PsiMethod psiMethod = psiMethods.get(0);
-                ModuleHelper moduleHelper = ModuleHelper.create(module);
-
+                // ModuleHelper moduleHelper = ModuleHelper.create(module);
                 String url = PsiMethodHelper.create(psiMethod).withModule(module).buildFullUrlWithParams();
-
                 CopyPasteManager.getInstance().setContents(new StringSelection(url));
-
             }
-
         }
-
     }
 
 }

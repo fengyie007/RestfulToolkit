@@ -24,14 +24,14 @@ public class RestServiceProject {
 
     public RestServiceProject(String moduleName, List<RestServiceItem> serviceItems) {
         this.moduleName = moduleName;
-        port = port;
+        // port = port;
         appName = moduleName;
         this.serviceItems = serviceItems;
     }
 
     public RestServiceProject(Module module, List<RestServiceItem> serviceItems) {
         this.moduleName = module.getName();
-        port = port;
+        // port = port;
         appName = moduleName;
         this.serviceItems = serviceItems;
     }

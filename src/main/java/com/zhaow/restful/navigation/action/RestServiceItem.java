@@ -17,7 +17,13 @@ import org.jetbrains.kotlin.psi.KtNamedFunction;
 import javax.swing.*;
 import java.util.Arrays;
 
+import lombok.Getter;
+import lombok.Setter;
+
 //RequestMappingNavigationItem
+
+@Getter
+@Setter
 public class RestServiceItem implements NavigationItem {
     private PsiMethod psiMethod; //元素
     private PsiElement psiElement; //元素
@@ -171,12 +177,12 @@ public class RestServiceItem implements NavigationItem {
         if (module == null) {
             return getUrl();
         }
-
-        ModuleHelper moduleHelper = ModuleHelper.create(module);
+        // ModuleHelper moduleHelper = ModuleHelper.create(module);
         // 处理 Mapping 设置个 value
 //        String fullUrl = moduleHelper.buildFullUrl(psiMethod);
-
-        return moduleHelper.getServiceHostPrefix() + getUrl();
+        // String prefix = moduleHelper.getServiceHostPrefix();
+        String prefix = ModuleHelper.getServiceHostPrefix(module);
+        return prefix + getUrl();
     }
 
 /*    public String getFullUrlWithParams() {

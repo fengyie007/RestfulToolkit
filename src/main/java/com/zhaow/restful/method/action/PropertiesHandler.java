@@ -25,42 +25,44 @@ import java.util.*;
 //最终可能优先级 application.properties>application.yml>bootstrap.propertis>bootstrap.yml
 //路径：classpath:/(resource)>classpath:/config/
 public class PropertiesHandler {
-
-    public String[] getFileExtensions() { //优先级
-        return new String[]{"properties", "yml"};
-    }
-
-    public String[] getConfigFiles() { // 优先级
-        return new String[]{"application", "bootstrap"};
-    }
-
-    public List<String> CONFIG_FILES = Arrays.asList("application", "bootstrap");
-    public List<String> FILE_EXTENSIONS = Arrays.asList("properties", "yml");
-
-    String SPRING_PROFILE = "spring.profiles.active";
+    private static final String SPRING_PROFILE = "spring.profiles.active";
+    // private static List<String> CONFIG_FILES = Arrays.asList("application", "bootstrap");
+    // private static List<String> FILE_EXTENSIONS = Arrays.asList("properties", "yml");
 
     String placeholderPrefix = "${";
     String valueSeparator = ":";
     String placeholderSuffix = "}";
-
     String activeProfile;
-
     Module module;
 
     public PropertiesHandler(Module module) {
         this.module = module;
     }
 
+    public String[] getFileExtensions() { //优先级
+        return new String[]{"properties", "yml", "yaml"};
+    }
+
+    public String[] getConfigFiles() { // 优先级
+        return new String[]{"application", "bootstrap"};
+    }
+
     public String getServerPort() {
         String port = null;
         String serverPortKey = "server.port";
 
+        // 配置 spring.profiles.active
         activeProfile = findProfilePropertyValue();
 
-        //
         if (activeProfile != null) {
             port = findPropertyValue(serverPortKey, activeProfile);
         }
+
+        //  查询Apollo配置文件
+        if (port == null) {
+
+        }
+
         if (port == null) {
             port = findPropertyValue(serverPortKey, null);
         }
@@ -87,8 +89,7 @@ public class PropertiesHandler {
 
     /* try find spring.profiles.active value */
     private String findProfilePropertyValue() {
-        String activeProfile = findPropertyValue(SPRING_PROFILE, null);
-        return activeProfile;
+        return findPropertyValue(SPRING_PROFILE, null);
     }
 
     /* 暂时不考虑路径问题，默认找到的第一文件 */
@@ -96,7 +97,7 @@ public class PropertiesHandler {
         String value = null;
         String profile = activeProfile != null ? "-" + activeProfile : "";
         //
-        for (String conf : getConfigFiles()) {
+         for (String conf : getConfigFiles()) {
             for (String ext : getFileExtensions()) {
                 // load spring config file
                 String configFile = conf + profile + "." + ext;
@@ -109,12 +110,12 @@ public class PropertiesHandler {
                             return value;
                         }
                     }
-
                 } else if (ext.equals("yml") || ext.equals("yaml")) {
                     Map<String, Object> propertiesMap = getPropertiesMapFromYamlFile(configFile);
                     if (propertiesMap != null) {
                         Object valueObj = propertiesMap.get(propertyKey);
-                        if (valueObj == null) return null;
+                        if (valueObj == null)
+                            return null;
 
                         if (valueObj instanceof String) {
                             value = cleanPlaceholderIfExist((String) valueObj);
@@ -153,10 +154,8 @@ public class PropertiesHandler {
     public String getContextPath() {
         String key = "server.context-path";
         String contextPath = null;
-
         activeProfile = findProfilePropertyValue();
 
-        //
         if (activeProfile != null) {
             contextPath = findPropertyValue(key, activeProfile);
         }
@@ -177,7 +176,7 @@ public class PropertiesHandler {
             if (split.length > 1) {
                 value = split[1].replace(placeholderSuffix, "");
             }
-//            value = value.replace(placeholderPrefix,"").replace(placeholderSuffix,"");
+            //            value = value.replace(placeholderPrefix,"").replace(placeholderSuffix,"");
         }
         return value;
     }
@@ -197,7 +196,7 @@ public class PropertiesHandler {
                 return null;
             }
 
-//        Object yamlProperty = getYamlProperty(key, ymlPropertiesMap);
+            //        Object yamlProperty = getYamlProperty(key, ymlPropertiesMap);
         }
         return null;
     }
@@ -205,9 +204,7 @@ public class PropertiesHandler {
 
     private PsiFile findPsiFileInModule(String fileName) {
         PsiFile psiFile = null;
-        PsiFile[] applicationProperties = FilenameIndex.getFilesByName(module.getProject(),
-                fileName,
-                GlobalSearchScope.moduleScope(module));
+        PsiFile[] applicationProperties = FilenameIndex.getFilesByName(module.getProject(), fileName, GlobalSearchScope.moduleScope(module));
 
         if (applicationProperties.length > 0) {
             psiFile = applicationProperties[0];
