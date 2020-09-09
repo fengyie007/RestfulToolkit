@@ -56,10 +56,8 @@ public class PsiMethodHelper {
      * @return
      */
     public String buildParamString() {
-
 //        boolean matchedGet = matchGetMethod();
         // 没指定method 标示支持所有method
-
         StringBuilder param = new StringBuilder("");
         Map<String, Object> baseTypeParamMap = getBaseTypeParameterMap();
 
@@ -74,12 +72,11 @@ public class PsiMethodHelper {
     @NotNull
     public Map<String, Object> getBaseTypeParameterMap() {
         List<Parameter> parameterList = getParameterList();
-
         Map<String, Object> baseTypeParamMap = new LinkedHashMap();
 
         // 拼接参数
         for (Parameter parameter : parameterList) {
-//跳过标注 RequestBody 注解的参数
+            //跳过标注 RequestBody 注解的参数
             if (parameter.isRequestBodyFound()) {
                 continue;
             }
@@ -91,7 +88,7 @@ public class PsiMethodHelper {
             Object defaultValue = PsiClassHelper.getJavaBaseTypeDefaultValue(shortTypeName);
             //简单常用类型
             if (defaultValue != null) {
-                baseTypeParamMap.put(parameter.getParamName(), (defaultValue));
+                baseTypeParamMap.put(parameter.getParamName(), defaultValue);
                 continue;
             }
 
@@ -179,8 +176,11 @@ public class PsiMethodHelper {
     public String getAnnotationValue(PsiAnnotation annotation) {
         String paramName = null;
         PsiAnnotationMemberValue attributeValue = annotation.findDeclaredAttributeValue("value");
+        if (attributeValue == null) {
+            attributeValue = annotation.findDeclaredAttributeValue("name");
+        }
 
-        if (attributeValue != null && attributeValue instanceof PsiLiteralExpression) {
+        if (attributeValue instanceof PsiLiteralExpression) {
             paramName = (String) ((PsiLiteralExpression) attributeValue).getValue();
         }
         return paramName;

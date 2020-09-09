@@ -21,7 +21,6 @@ public class GenerateQueryParamAction extends SpringAnnotatedMethodAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-
         PsiElement psiElement = e.getData(CommonDataKeys.PSI_ELEMENT);
         PsiUtil.getTopLevelClass(psiElement);
         PsiMethod psiMethod = null;
@@ -44,7 +43,6 @@ public class GenerateQueryParamAction extends SpringAnnotatedMethodAction {
 
         if (psiMethod != null) {
             String params = PsiMethodHelper.create(psiMethod).buildParamString();
-
             CopyPasteManager.getInstance().setContents(new StringSelection(params));
         }
 

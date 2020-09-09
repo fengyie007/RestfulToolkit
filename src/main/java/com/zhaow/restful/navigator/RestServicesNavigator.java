@@ -59,7 +59,7 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
 
     private void initTree() {
         myTree = new SimpleTree() {
-
+            private static final long serialVersionUID = -5924871006469516509L;
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -90,7 +90,6 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
             }
         };
         myTree.getEmptyText().clear();
-
         myTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
     }
 
@@ -105,7 +104,6 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
     }
 
     private void initToolWindow() {
-
         final ToolWindowManagerEx manager = ToolWindowManagerEx.getInstanceEx(myProject);
         myToolWindow = (ToolWindowEx) manager.getToolWindow(TOOL_WINDOW_ID);
         if (myToolWindow != null) {

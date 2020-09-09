@@ -21,9 +21,7 @@ public class GenerateQueryParamJsonAction extends SpringAnnotatedMethodAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-
         //  @RequestBody entity 生成 json
-
         PsiMethod psiMethod = null;
         PsiElement psiElement = e.getData(CommonDataKeys.PSI_ELEMENT);
         if (psiElement instanceof PsiMethod) {

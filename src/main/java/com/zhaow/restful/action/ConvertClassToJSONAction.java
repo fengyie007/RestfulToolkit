@@ -18,9 +18,7 @@ public class ConvertClassToJSONAction extends AbstractBaseAction {
     public void actionPerformed(AnActionEvent e) {
         PsiElement psiElement = e.getData(CommonDataKeys.PSI_ELEMENT);
         PsiClass psiClass = getPsiClass(psiElement);
-
         if (psiClass == null) return;
-
         String json = PsiClassHelper.create(psiClass).convertClassToJSON(myProject(e), true);
         CopyPasteManager.getInstance().setContents(new StringSelection(json));
     }

@@ -127,8 +127,7 @@ public class SpringResolver extends BaseServiceResolver {
 
         for (PathMappingAnnotation controllerAnnotation : supportedAnnotations) {
             // java: 标注了 (Rest)Controller 注解的类，即 Controller 类
-            Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex.getInstance()
-                    .get(controllerAnnotation.getShortName(), project, globalSearchScope);
+            Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex.getInstance().get(controllerAnnotation.getShortName(), project, globalSearchScope);
 
             for (PsiAnnotation psiAnnotation : psiAnnotations) {
                 PsiModifierList psiModifierList = (PsiModifierList) psiAnnotation.getParent();
@@ -140,10 +139,8 @@ public class SpringResolver extends BaseServiceResolver {
                 itemList.addAll(serviceItemList);
             }
 
-
             // kotlin:
-            Collection<KtAnnotationEntry> ktAnnotationEntries = KotlinAnnotationsIndex.getInstance()
-                    .get(controllerAnnotation.getShortName(), project, globalSearchScope);
+            Collection<KtAnnotationEntry> ktAnnotationEntries = KotlinAnnotationsIndex.getInstance().get(controllerAnnotation.getShortName(), project, globalSearchScope);
 
             for (KtAnnotationEntry ktAnnotationEntry : ktAnnotationEntries) {
                 KtClass ktClass = (KtClass) ktAnnotationEntry.getParent().getParent();
@@ -173,7 +170,6 @@ public class SpringResolver extends BaseServiceResolver {
     }
 
     protected List<RestServiceItem> getServiceItemList(PsiClass psiClass) {
-
         PsiMethod[] psiMethods = psiClass.getMethods();
         if (psiMethods == null) {
             return new ArrayList<>();
@@ -189,7 +185,6 @@ public class SpringResolver extends BaseServiceResolver {
                 for (RequestPath methodRequestPath : methodRequestPaths) {
                     String path = classRequestPath.getPath();
                     //                String path = tryReplacePlaceholderValueInPath( classRequestPath.getPath() );
-
                     RestServiceItem item = createRestServiceItem(psiMethod, path, methodRequestPath);
                     itemList.add(item);
                 }

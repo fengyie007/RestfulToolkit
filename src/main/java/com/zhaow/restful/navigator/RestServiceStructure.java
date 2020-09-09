@@ -47,15 +47,15 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
     private final Map<RestServiceProject, ProjectNode> myProjectToNodeMapping = new THashMap<>();
 
-    public RestServiceStructure(Project project,
-                                RestServiceProjectsManager projectsManager,
-                                SimpleTree tree) {
+    public RestServiceStructure(Project project, RestServiceProjectsManager projectsManager, SimpleTree tree) {
         myProject = project;
         myProjectsManager = projectsManager;
         myTree = tree;
         myRestServiceDetail = project.getComponent(RestServiceDetail.class);
 
-        configureTree(tree);
+        tree.setRootVisible(true);
+        tree.setShowsRootHandles(true);
+
         // fixme: 2020.3 以后不兼容
         myTreeBuilder = new SimpleTreeBuilder(tree, (DefaultTreeModel) tree.getModel(), this, null);
         Disposer.register(myProject, myTreeBuilder);
@@ -65,13 +65,9 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         // fixme: 2020.3 以后不兼容
         myTreeBuilder.expand(myRoot, null);
-
     }
 
-    private void configureTree(SimpleTree tree) {
-        tree.setRootVisible(true);
-        tree.setShowsRootHandles(true);
-    }
+
 
     @Override
     public RootNode getRootElement() {
@@ -79,10 +75,10 @@ public class RestServiceStructure extends SimpleTreeStructure {
     }
 
     public void update() {
-//        myTreeBuilder.setClearOnHideDelay(4);
-//        myTreeBuilder.cleanUp();
-//        myTreeBuilder.initRoot();
-//        myTreeBuilder.expand(myRoot, null);
+        //        myTreeBuilder.setClearOnHideDelay(4);
+        //        myTreeBuilder.cleanUp();
+        //        myTreeBuilder.initRoot();
+        //        myTreeBuilder.expand(myRoot, null);
         // rest service controller
 /*
         SimpleTree tree1 = new SimpleTree();
@@ -92,8 +88,8 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         myTreeBuilder.initRoot();
         myTreeBuilder.expand(myRoot, null);*/
-//        List<RestServiceProject> projects = myProjectsManager.getProjects();
-//        List<RestServiceProject> projects = RestServiceProjectsManager.getInstance(myProject).getProjects();
+        //        List<RestServiceProject> projects = myProjectsManager.getProjects();
+        //        List<RestServiceProject> projects = RestServiceProjectsManager.getInstance(myProject).getProjects();
 /*        if (!ModalityState.current().equals(ModalityState.any()) && myProject.isInitialized()) {
             PsiDocumentManager.getInstance(myProject).commitAllDocuments();
         }*/
@@ -101,15 +97,15 @@ public class RestServiceStructure extends SimpleTreeStructure {
         List<RestServiceProject> projects = RestServiceProjectsManager.getInstance(myProject).getServiceProjects();
 
 
-//        Set<RestServiceProject> deleted = new HashSet<>(myProjectToNodeMapping.keySet());
-//        deleted.removeAll(projects);
+        //        Set<RestServiceProject> deleted = new HashSet<>(myProjectToNodeMapping.keySet());
+        //        deleted.removeAll(projects);
         updateProjects(projects);
     }
 
     public void updateProjects(List<RestServiceProject> projects) {
         serviceCount = 0;
-//        DefaultMutableTreeNode rootTreeNode = createTreeNode("REST Services");
-//        myTreeBuilder.addSubtreeToUpdate(rootTreeNode);
+        //        DefaultMutableTreeNode rootTreeNode = createTreeNode("REST Services");
+        //        myTreeBuilder.addSubtreeToUpdate(rootTreeNode);
 
         for (RestServiceProject each : projects) {
             serviceCount += each.serviceItems.size();
@@ -119,10 +115,10 @@ public class RestServiceStructure extends SimpleTreeStructure {
                 myProjectToNodeMapping.put(each, node);
             }
         }
-//        fixme: 2020.3 以后不兼容
+        //        fixme: 2020.3 以后不兼容
         myTreeBuilder.getUi().doUpdateFromRoot();
-//        ((CachingSimpleNode) myRoot.getParent()).cleanUpCache();
-//        myRoot.childrenChanged();
+        //        ((CachingSimpleNode) myRoot.getParent()).cleanUpCache();
+        //        myRoot.childrenChanged();
         myRoot.updateProjectNodes(projects);
     }
 
@@ -132,7 +128,8 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
     public void updateFrom(SimpleNode node) {
         //        fixme: 2020.3 以后不兼容
-        myTreeBuilder.addSubtreeToUpdateByElement(node);
+        if (node != null)
+            myTreeBuilder.addSubtreeToUpdateByElement(node);
     }
 
     private void updateUpTo(SimpleNode node) {
@@ -154,7 +151,6 @@ public class RestServiceStructure extends SimpleTreeStructure {
                 filtered.clear();
                 break;
             }
-            //noinspection unchecked
             filtered.add((T) node);
         }
         return filtered;
@@ -212,13 +208,13 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         protected RootNode() {
             super(null);
-//            getTemplatePresentation().setIcon(AllIcons.Actions.Module);
-//            setIcon(AllIcons.Actions.Module); //兼容 IDEA 2016
+            //            getTemplatePresentation().setIcon(AllIcons.Actions.Module);
+            //            setIcon(AllIcons.Actions.Module); //兼容 IDEA 2016
         }
 
         @Override
         protected SimpleNode[] buildChildren() {
-            return projectNodes.toArray(new SimpleNode[projectNodes.size()]);
+            return projectNodes.toArray(new SimpleNode[0]);
         }
 
         @Override
@@ -229,20 +225,20 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         @Override
         public void handleSelection(SimpleTree tree) {
-//            System.out.println("ProjectNode handleSelection");
+            //            System.out.println("ProjectNode handleSelection");
             resetRestServiceDetail();
 
         }
 
         public void updateProjectNodes(List<RestServiceProject> projects) {
-//            cleanUpCache();
+            //            cleanUpCache();
             projectNodes.clear();
             for (RestServiceProject project : projects) {
                 ProjectNode projectNode = new ProjectNode(this, project);
                 projectNodes.add(projectNode);
             }
 
-//                projectNode.updateServiceNodes();
+            //                projectNode.updateServiceNodes();
 
             /*SimpleNode parent = getParent();
             if (parent != null) {
@@ -250,7 +246,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
             }*/
             updateFrom(getParent());
             childrenChanged();
-//            updateUpTo(this);
+            //            updateUpTo(this);
 
         }
 
@@ -262,12 +258,12 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
 
         public ProjectNode(SimpleNode parent,/*,List<RestServiceItem> serviceItems*/RestServiceProject project) {
-//            super(parent);
+            //            super(parent);
             super(parent);
             myProject = project;
 
-//            getTemplatePresentation().setIcon(ToolkitIcons.MODULE);
-//            setIcon(ToolkitIcons.MODULE); //兼容 IDEA 2016
+            //            getTemplatePresentation().setIcon(ToolkitIcons.MODULE);
+            //            setIcon(ToolkitIcons.MODULE); //兼容 IDEA 2016
 
             updateServiceNodes(project.serviceItems);
         }
@@ -286,8 +282,8 @@ public class RestServiceStructure extends SimpleTreeStructure {
                 ((BaseSimpleNode) parent).cleanUpCache();
             }
             updateFrom(parent);
-//            childrenChanged();
-//            updateUpTo(this);
+            //            childrenChanged();
+            //            updateUpTo(this);
         }
 
         @Override
@@ -317,13 +313,13 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         @Override
         public void handleSelection(SimpleTree tree) {
-//            System.out.println("ProjectNode handleSelection");
+            //            System.out.println("ProjectNode handleSelection");
             resetRestServiceDetail();
         }
 
         @Override
         public void handleDoubleClickOrEnter(SimpleTree tree, InputEvent inputEvent) {
-//            System.out.println("ProjectNode handleDoubleClickOrEnter");
+            //            System.out.println("ProjectNode handleDoubleClickOrEnter");
         }
     }
 
@@ -408,7 +404,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
             if (!psiElement.isValid()) {
                 // PsiDocumentManager.getInstance(psiMethod.getProject()).commitAllDocuments();
                 // try refresh service
-                LOG.info("psiMethod is invalid: " +    psiElement.toString());
+                LOG.info("psiMethod is invalid: " + psiElement.toString());
                 RestServicesNavigator.getInstance(myServiceItem.getModule().getProject()).scheduleStructureUpdate();
             }
 

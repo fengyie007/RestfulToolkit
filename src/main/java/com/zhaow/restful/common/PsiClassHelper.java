@@ -93,28 +93,24 @@ public class PsiClassHelper {
                 paramValue = Byte.valueOf("1");
                 break;
             case "char":
-                paramValue = Character.valueOf('Z');
-                break;
             case "character":
-                paramValue = Character.valueOf('Z');
+                paramValue = 'Z';
                 break;
             case "boolean":
                 paramValue = Boolean.TRUE;
                 break;
             case "int":
-                paramValue = Integer.valueOf(1);
-                break;
             case "integer":
-                paramValue = Integer.valueOf(1);
+                paramValue = 1;
                 break;
             case "double":
-                paramValue = Double.valueOf(1);
+                paramValue = 1d;
                 break;
             case "float":
-                paramValue = Float.valueOf(1.0F);
+                paramValue = 1.0F;
                 break;
             case "long":
-                paramValue = Long.valueOf(1L);
+                paramValue = 1L;
                 break;
             case "short":
                 paramValue = Short.valueOf("1");
@@ -138,7 +134,6 @@ public class PsiClassHelper {
     }
 
     private Object setFieldDefaultValue(PsiType psiFieldType, Project project) {
-
         // 八种类型和包装类
         String typeName = psiFieldType.getPresentableText();
         /*if (isJavaBaseType(typeName)) {
@@ -398,7 +393,6 @@ public class PsiClassHelper {
 
                         Map<String, Object> objectMap = assembleClassToMap(onePsiClassByClassName, project, 0);
                         map.put(fieldName, objectMap);
-                        continue;
                     }
                 }
 

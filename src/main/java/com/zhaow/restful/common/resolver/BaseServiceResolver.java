@@ -77,9 +77,10 @@ public abstract class BaseServiceResolver implements ServiceResolver {
 
         String methodPath = requestMapping.getPath();
 
-        if (methodPath.startsWith("/")) methodPath = methodPath.substring(1, methodPath.length());
+        if (methodPath.startsWith("/")) {
+            methodPath = methodPath.substring(1, methodPath.length());
+        }
         String requestPath = classUriPath + methodPath;
-
         RestServiceItem item = new RestServiceItem(psiMethod, requestMapping.getMethod(), requestPath);
         item.setModule(myModule);
         return item;
