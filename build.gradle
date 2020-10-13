@@ -4,11 +4,13 @@ plugins {
 }
 
 group 'com.zhaow'
-version '2.0.13'
+version '2.0.14-SNAPSHOT'
 
 repositories {
-    mavenCentral()
     jcenter()
+    maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    mavenCentral()
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin'}
 }
 
 dependencies {
@@ -22,8 +24,11 @@ dependencies {
 intellij {
     // See https://github.com/JetBrains/gradle-intellij-plugin/
     pluginName 'RestfulToolkit'
+//    version '202.7319.50'
     version '2020.3'
     plugins = ['java', 'Kotlin', 'yaml', 'properties']
+    updateSinceUntilBuild false
+    buildSearchableOptions.enabled = false
 }
 
 patchPluginXml {
@@ -69,5 +74,5 @@ patchPluginXml {
 
 //提交插件配置
 publishPlugin {
-    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+//    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
 }
