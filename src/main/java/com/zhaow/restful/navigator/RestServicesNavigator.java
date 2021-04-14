@@ -4,7 +4,6 @@ package com.zhaow.restful.navigator;
 import com.intellij.ide.util.treeView.TreeState;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.*;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.wm.ToolWindowAnchor;
@@ -26,9 +25,11 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.net.URL;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @State(name = "RestServicesNavigator", storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)})
-public class RestServicesNavigator extends AbstractProjectComponent implements PersistentStateComponent<RestServicesNavigatorState>, ProjectComponent {
-    public static final Logger LOG = Logger.getInstance(RestServicesNavigator.class);
+public class RestServicesNavigator implements PersistentStateComponent<RestServicesNavigatorState>, ProjectComponent {
 
     public static final String TOOL_WINDOW_ID = "RestServices";
 
@@ -39,18 +40,12 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
     RestServicesNavigatorState myState = new RestServicesNavigatorState();
 
     private SimpleTree myTree;
-    //    private JTree myTree;
     protected RestServiceStructure myStructure;
     private ToolWindowEx myToolWindow;
 
-    private RestServiceProjectsManager myProjectsManager;
-
-    public RestServicesNavigator(Project myProject, RestServiceProjectsManager projectsManager) {
-        super(myProject);
+    public RestServicesNavigator(Project myProject) {
         this.myProject = myProject;
-        myProjectsManager = projectsManager;
     }
-
 
     public static RestServicesNavigator getInstance(Project p) {
         return p.getComponent(RestServicesNavigator.class);
@@ -71,7 +66,7 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
                 if (myProject.isInitialized()) {
                     return;
                 }
-//                if (myProjectsManager.hasProjects()) return;
+                //                if (myProjectsManager.hasProjects()) return;
 
                 myLabel.setFont(getFont());
                 myLabel.setBackground(getBackground());
@@ -96,7 +91,6 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
     @Override
     public void initComponent() {
         listenForProjectsChanges();
-//        ToolkitUtil.runWhenInitialized(myProject, (DumbAwareRunnable)() -> {
         ToolkitUtil.runWhenInitialized(myProject, () -> {
             if (myProject.isDisposed()) return;
             initToolWindow();
@@ -157,11 +151,9 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
     }
 
     private void scheduleStructureRequest(final Runnable r) {
-
         if (myToolWindow == null) return;
-
-//        ToolkitUtil.invokeLater(myProject, () -> {
-//        ToolkitUtil.runWhenInitialized(myProject, () -> {
+        //        ToolkitUtil.invokeLater(myProject, () -> {
+        //        ToolkitUtil.runWhenInitialized(myProject, () -> {
         ToolkitUtil.runWhenProjectIsReady(myProject, () -> {
             if (!myToolWindow.isVisible()) return;
 
@@ -171,10 +163,10 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
             }
 
             r.run();
-// fixme: compat
-//            if (shouldCreate) {
-//                TreeState.createFrom(myState.treeState).applyTo(myTree);
-//            }
+            // fixme: compat
+            //            if (shouldCreate) {
+            //                TreeState.createFrom(myState.treeState).applyTo(myTree);
+            //            }
         });
 
         //        if (isUnitTestMode()) {
@@ -187,7 +179,7 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
     }
 
     private void initStructure() {
-        myStructure = new RestServiceStructure(myProject, myProjectsManager, myTree);
+        myStructure = new RestServiceStructure(myProject, myTree);
 
     }
 
@@ -205,7 +197,7 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
                 myState.treeState = new Element("root");
                 TreeState.createOn(myTree).writeExternal(myState.treeState);
             } catch (WriteExternalException e) {
-                LOG.warn(e);
+                log.warn("", e);
             }
         }
         return myState;

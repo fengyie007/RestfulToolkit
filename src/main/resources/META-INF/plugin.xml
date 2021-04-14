@@ -1,22 +1,10 @@
-<idea-plugin url="https://plugins.jetbrains.com/plugin/10292-restfultoolkit" allow-bundled-update="true">
+<idea-plugin url="https://plugins.jetbrains.com/plugin/10292-restfultoolkit" allow-bundled-update="true" require-restart="false">
     <id>com.zhaow.restful.toolkit</id>
     <name>RestfulToolkit</name>
-    <version>2.0.11</version>
-    <vendor email="mrmanzhaow@163.com" url="">zhaow</vendor>
+    <version>2.0.13</version>
+    <vendor email="" url="">zhaow</vendor>
 
     <description><![CDATA[
-      <h3>A toolkit for RESTful services development.</h3>
-      <ul>
-         <li>1.ONE STEP to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N ) </li>
-         <li>2.Show RESTful services structure.</li>
-         <li>3.A simple http request tool.</li>
-         <li>4.Add some useful functions at request method, Generate&amp;Copy Query Param, Generate&amp;Copy URL, etc. </li>
-         <li>5.Other functions: Convert to JSON; to java class，format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .</li>
-      </ul>
-      <p> support Spring framework (Spring MVC / Spring Boot)
-      <p> support JAX-RS
-      <p> support Java and Kotlin languages
-      <hr />
       <h3>一套 RESTful 服务开发辅助工具集。</h3>
       <ul>
            <li>1.根据 URL 直接跳转到对应的方法定义 ( Ctrl \ or Ctrl Alt N ); </li>
@@ -25,59 +13,17 @@
            <li>4.在请求方法上添加了有用功能: <em>复制生成 URL</em>;,<em>复制方法参数</em>... </li>
            <li>5.其他功能: java 类上添加 <em>Convert to JSON</em> 功能，<em>格式化 json 数据</em> ( <em>Windows: Ctrl + Enter; Mac: Command + Enter</em> )。</li>
        </ul>
-       <p>支持 Spring 体系 (Spring MVC / Spring Boot)
+       <p>支持 Spring
        <p>支持 JAX-RS
        <p>支持 Java 和 Kotlin 语言。
     ]]>
     </description>
 
-    <change-notes><![CDATA[
-        <li>2.0.11 增加 @FeignClient 注解 <br/>
-                   增加从 yaml yml 配置文件中获取端口
-        </li>
-        <li>2.0.10 移除了 2020.1 版本不兼容的内容(只是简单注释掉,不知道是否移除了重要内容) 注意:2020.3移除了更多的东西 </li>
-        <li>2.0.5 Bug fixed, supported http request OPTIONS,TRACE,CONNECT methods. </li>
-        <li>2.0.4 Fixed NullPointerException with Kotlin project.<br/>
-                  Fixed IllegalArgumentException: No enum constant com.zhaow.restful.method.HttpMethod.HEAD <br/>
-                  Supported Kotlin 1.2 level. </li>
-        <li>2.0.3 Improvements in navigate service(url), auto pasted copied http url to from clipboard.<br/>
-                  Bug fixed.<br/> </li>
-        <li>2.0.2 Match mapped URLs for Controllers without @RequestMapping annotations;<br/>
-                  Supported mapped URLs for Controllers extended supper Object with @RequestMapping annotations.<br/>
-                  Added Popup Menus ( "Copy Full Url", "Jump to Source") for service nodes.
-        </li>
-        <li>2.0.1 Fixed JSON generation issue with POJO contains array fields;
-        </li>
-        <li>2.0 Add Kotlin language supported;<br>
-                Fixed some bugs.
-        </li>
-        <li>1.1 Supported JAX-RS;<br>
-               Format JSON data , use "Command + Enter" on Mac
-               (增强 POJO 生成 json 功能,处理 List、Enum等类型，处理自关联场景);<br>
-               Fixed some bugs.<br>
-       </li>
-       <li>1.0.9 Service url navigation: matched restful style request mappings (e.g.:"/product/{productId}");<br>
-       </li>
-       <li>1.0.8 Bug fixed </li>
-       <li>1.0.7 Match more mapped URLs ; (识别更多映射)<br>
-                 Replaced icons;<br>
-                 Add "Convert to JSON (Compressed)" function to java class;
-       </li>
-       <li>1.0.6 Compatible with IDEA 2016 (兼容 IDEA 2016) </li>
-       <li>1.0.5 修复发送请求IDE卡死的问题. </li>
-       <li>1.0.4 Format Date type (格式化 Date 类型) </li>
-       <li>1.0.3 Small cleanup some code. </li>
-    ]]>
-    </change-notes>
-
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="201"/>
+    <idea-version since-build="203.0"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
-    -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.properties</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
@@ -88,31 +34,22 @@
             <implementation-class>com.zhaow.restful.navigator.RestServicesNavigator</implementation-class>
         </component>
         <component>
-            <implementation-class>com.zhaow.restful.navigator.RestServiceProjectsManager</implementation-class>
-        </component>
-        <!--        <component>
-                    <implementation-class>com.zhaow.restful.navigation.action.GotoRequestMappingConfiguration</implementation-class>
-                </component>-->
-        <component>
             <implementation-class>com.zhaow.restful.navigator.RestServiceDetail</implementation-class>
         </component>
     </project-components>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceImplementation="com.zhaow.restful.navigation.action.GotoRequestMappingConfiguration"/>
+        <projectService serviceImplementation="com.yhml.restful.service.RestProjectService" />
+        <projectService serviceImplementation="com.zhaow.restful.navigation.action.GotoRequestMappingConfiguration" />
         <!-- Add your extensions here -->
         <!--        fixme: 2020.1以后不兼容 临时注释掉 -->
         <!--        <productivityFeaturesProvider implementation="com.zhaow.restful.statistics.RestfulToolkitFeaturesProvider"/>-->
-        <tipAndTrick feature-id="navigation.popup.service" file="GotoService.html"/>
+        <!--        删除 feature-id 属性 -->
+        <tipAndTrick  file="GotoService.html"/>  /
     </extensions>
 
-    <application-components>
-        <!-- Add your application components here -->
-    </application-components>
-
     <actions>
-        <action id="Popup.PopupChoiceAction" class="com.zhaow.restful.popup.action.PopupChoiceAction" text="Popup RESTful Toolkit ..."
-                description="Popup RESTful Toolkit ...">
+        <action id="Popup.PopupChoiceAction" class="com.zhaow.restful.popup.action.PopupChoiceAction" text="Popup RESTful Toolkit" description="Popup RESTful Toolkit">
             <add-to-group group-id="EditMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt shift R"/>
         </action>
@@ -122,25 +59,24 @@
         <!--rest 方法中添加-->
         <group id="RestfulToolkitGroup" text="RestfulToolkit" description="RESTful Toolkit actions for rest method group">
             <!--<add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
-            <action class="com.zhaow.restful.method.action.GenerateFullUrlAction" id="GenerateFullRestUrl" text="Generate &amp;&amp; Copy Full URL">
+            <action class="com.zhaow.restful.method.action.GenerateFullUrlAction" id="GenerateFullRestUrl" text="Copy Full URL">
                 <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             </action>
-            <action class="com.zhaow.restful.method.action.GenerateUrlAction" id="GenerateRestUrl" text="Generate &amp;&amp; Copy Relation URL">
+            <action class="com.zhaow.restful.method.action.GenerateUrlAction" id="GenerateRestUrl" text="Copy Relation URL">
                 <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             </action>
             <action class="com.zhaow.restful.method.action.GenerateQueryParamJsonAction" id="GenerateRequestBodyJson"
-                    text="Generate &amp;&amp; Copy RequestBody (JSON)">
+                    text="Copy RequestBody (JSON)">
                 <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             </action>
             <action class="com.zhaow.restful.method.action.GenerateQueryParamAction" id="BuildQueryParam"
-                    text="Generate &amp;&amp; Copy Query Param (Key Value)">
+                    text="Copy Query Param (Key Value)">
                 <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             </action>
             <!--jaxrs-->
-
         </group>
 
-        <group id="RestfulToolkit.RestMethod.EditorPopupMenu" text="RESTful Toolkit" description="RESTful Toolkit" popup="false">
+        <group id="RestfulToolkit.RestMethod.EditorPopupMenu" text="RESTful Toolkit" description="RESTfulToolkit" popup="false">
             <!--<add-to-group group-id="EditorPopupMenu" anchor="last" relative-to-action="EditorToggleColumnMode"/>-->
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <!--<reference ref="GenerateRestUrl"/>-->
@@ -148,7 +84,6 @@
 
         <!--实体中添加 gen json、
         gen key value for postman( postman 参数 bulk edit )-->
-
         <!--跳转导航： 根据rest url 导航 参考 request mapper  ( Enter mapping url ) 快捷键用 ctl alt n -->
 
         <!-- show services -->
@@ -156,11 +91,6 @@
                 description="Convert to JSON">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
         </action>
-
-        <!--<action id="ConvertClassToJSONCompressedAction" class="com.zhaow.restful.action.ConvertClassToJSONCompressedAction"-->
-        <!--        text="Convert to JSON (Compressed)" description="Convert to JSON (Compressed)">-->
-        <!--    <add-to-group group-id="EditorPopupMenu" anchor="last"/>-->
-        <!--</action>-->
 
         <!-- url 导航 -->
         <action id="Toolkit.GotoService" class="com.zhaow.restful.navigation.action.GotoRequestMappingAction" text="_Service"

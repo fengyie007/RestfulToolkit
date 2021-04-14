@@ -158,9 +158,7 @@ public class ToolkitUtil {
         for (String line : lines) {
             //合法参数键值对 （非//开头，且包含 : ）
             if (!line.startsWith("//") && line.contains(":")) {
-
                 String[] prop = line.split(":");
-
                 if (prop.length > 1) {
                     String key = prop[0].trim();
                     String value = prop[1].trim();

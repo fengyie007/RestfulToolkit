@@ -1,44 +1,32 @@
 plugins {
-    id 'org.jetbrains.intellij' version '0.4.18'
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.7.2'
 }
 
 group 'com.zhaow'
-version '2.0.11'
+version '2.0.13'
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    'commons-codec:commons-codec:1.14'
+    'org.apache.httpcomponents:httpclient:4.5.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+}
+
 intellij {
-    version '2020.1'
-    // localPath '/Applications/IntelliJ IDEA.app'
+    // See https://github.com/JetBrains/gradle-intellij-plugin/
+    pluginName 'RestfulToolkit'
+    version '2020.3'
     plugins = ['java', 'Kotlin', 'yaml', 'properties']
 }
 
 patchPluginXml {
-    description """
- <h3>A toolkit for RESTful services development.</h3>
-  <ul>
-   <li>1.ONE STEP to navigate to service declaration. ( use: Ctrl + \\ or Ctrl + Alt + N ) </li>
-   <li>2.Show RESTful services structure.</li>
-   <li>3.A simple http request tool.</li>
-   <li>4.Add some useful functions at request method, Generate&amp;Copy Query Param, Generate&amp;Copy URL, etc. </li>
-   <li>5.Other functions: Convert to JSON; to java class，format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .</li>
- </ul>
-   <p> support Spring framework (Spring MVC / Spring Boot)
-   <p> support JAX-RS
-   <p> support Java and Kotlin languages
-
-  <hr />
-  <h3>一套 RESTful 服务开发辅助工具集。</h3>
-  <ul>
-   <li>1.根据 URL 直接跳转到对应的方法定义 ( Ctrl \\ or Ctrl Alt N ); </li>
-   <li>2.提供了一个 Services tree 的显示窗口; </li>
-   <li>3.一个简单的 http 请求工具;</li>
-   <li>4.在请求方法上添加了有用功能: <em>复制生成 URL</em>;,<em>复制方法参数</em>... </li>
-   <li>5.其他功能: java 类上添加 <em>Convert to JSON</em> 功能，<em>格式化 json 数据</em> ( <em>Windows: Ctrl + Enter; Mac: Command + Enter</em> )。</li>
-</ul>
-   <p>支持 Spring 体系 (Spring MVC / Spring Boot)
-   <p>支持 JAX-RS
-   <p>支持 Java 和 Kotlin 语言。
-"""
     changeNotes """
         <li>2.0.11 增加 @FeignClient 注解 <br/>
                    增加从 yaml yml 配置文件中获取端口
@@ -77,9 +65,9 @@ patchPluginXml {
        <li>1.0.3 Small cleanup some code. </li>
       """
 }
-dependencies {
-    'commons-codec:commons-codec:1.14'
-    'org.apache.httpcomponents:httpclient:4.5.12'
-    compileOnly 'org.projectlombok:lombok:1.16.14'
-    annotationProcessor 'org.projectlombok:lombok:1.16.14'
+
+
+//提交插件配置
+publishPlugin {
+    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
 }

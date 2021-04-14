@@ -28,7 +28,6 @@ public class PopupChoiceAction extends DumbAwareAction {
     public void actionPerformed(AnActionEvent e) {
         ListPopup popup = JBPopupFactory.getInstance().createActionGroupPopup(null, actionGroup,
                 e.getDataContext(), JBPopupFactory.ActionSelectionAid.ALPHA_NUMBERING, false);
-
         popup.showInBestPositionFor(e.getDataContext());
     }
 
@@ -43,7 +42,6 @@ public class PopupChoiceAction extends DumbAwareAction {
         Project project = getEventProject(e);
         if (project != null) {
             e.getPresentation().setEnabled(LookupManager.getInstance(project).getActiveLookup() == null);
-            return;
         }
     }
 }

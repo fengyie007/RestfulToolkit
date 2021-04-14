@@ -76,7 +76,6 @@ public class SpringBootGenerator extends AnAction {
     }
 
     private String genFromTemplate(String templateName, Map<String, String> dataMap) {
-
         VelocityContext context = new VelocityContext();
 
 //        context.put("services", services);
@@ -103,7 +102,6 @@ public class SpringBootGenerator extends AnAction {
 
     // 创建目录，文件
     private void createController(String basePackage, String path, String modelName) {
-
         createFile(modelName + "Controller", genFromTemplate("controller", new HashMap<>()));
     }
 

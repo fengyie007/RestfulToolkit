@@ -30,8 +30,6 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
 
-//import com.intellij.openapi.editor.colors.impl.AppEditorFontOptions;
-//import com.intellij.ui.components.JBPanelWithEmptyText;
 
 @SuppressWarnings("ALL")
 public class RestServiceDetail extends JBPanel/*WithEmptyText*/ {
