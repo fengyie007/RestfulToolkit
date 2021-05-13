@@ -25,7 +25,8 @@ intellij {
     // See https://github.com/JetBrains/gradle-intellij-plugin/
     pluginName 'RestfulToolkit'
 //    version '202.7319.50'
-    version '2020.3'
+    type 'IU'
+    version '2021.1.1'
     plugins = ['java', 'Kotlin', 'yaml', 'properties']
     updateSinceUntilBuild false
     buildSearchableOptions.enabled = false

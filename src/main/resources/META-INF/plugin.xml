@@ -20,7 +20,7 @@
     </description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="203.0"/>
+    <idea-version since-build="211.0"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -43,7 +43,7 @@
         <projectService serviceImplementation="com.zhaow.restful.navigation.action.GotoRequestMappingConfiguration" />
         <!-- Add your extensions here -->
         <!--        fixme: 2020.1以后不兼容 临时注释掉 -->
-        <!--        <productivityFeaturesProvider implementation="com.zhaow.restful.statistics.RestfulToolkitFeaturesProvider"/>-->
+                <productivityFeaturesProvider implementation="com.zhaow.restful.statistics.RestfulToolkitFeaturesProvider"/>
         <!--        删除 feature-id 属性 -->
         <tipAndTrick  file="GotoService.html"/>  /
     </extensions>
