@@ -8,7 +8,7 @@ version '2.0.14-SNAPSHOT'
 
 repositories {
     jcenter()
-    maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    maven { url 'https://dl.bintray.com/jetbrains/intellij-plugin-service' }
     mavenCentral()
     maven { url 'https://maven.aliyun.com/repository/gradle-plugin'}
 }
@@ -26,7 +26,7 @@ intellij {
     pluginName 'RestfulToolkit'
 //    version '202.7319.50'
     type 'IU'
-    version '2021.1.1'
+    version '2021.1.2'
     plugins = ['java', 'Kotlin', 'yaml', 'properties']
     updateSinceUntilBuild false
     buildSearchableOptions.enabled = false
